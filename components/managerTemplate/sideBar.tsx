@@ -47,13 +47,13 @@ const sideBar = ({ children, id, title, menuList }: managerProp) => {
               />
             </svg>
           </button>
-          <h1 className="font-bold text-2xl text-black tracking-wider">{title}</h1>
+          <h1 className="font-bold text-2xl text-[#344CB7] tracking-wider">{title}</h1>
         </div>
 
         <div className="relative">
           <button
             onClick={toggleDropdown}
-            className="flex items-center space-x-2 text-black"
+            className="flex items-center space-x-2 text-[#ff4c43]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -75,19 +75,19 @@ const sideBar = ({ children, id, title, menuList }: managerProp) => {
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 top-full">
               <a
                 href="#"
-                className="block px-4 py-2 text-sm textgray-700 hover:bg-gray-100"
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 Profile
               </a>
               <a
                 href="#"
-                className="block px-4 py-2 text-sm textgray-700 hover:bg-gray-100"
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 Settings
               </a>
               <a
                 href="#"
-                className="block px-4 py-2 text-sm textgray-700 hover:bg-gray-100"
+                className="block px-4 py-2 text-sm text-[#F0BB78] hover:bg-gray-100 hover:text-[#ff4c43]"
               >
                 Logout
               </a>
