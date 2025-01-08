@@ -47,13 +47,15 @@ const sideBar = ({ children, id, title, menuList }: managerProp) => {
               />
             </svg>
           </button>
-          <h1 className="font-bold text-2xl text-[#344CB7] tracking-wider">{title}</h1>
+          <h1 className="font-bold text-2xl text-[#344CB7] tracking-wider">
+            {title}
+          </h1>
         </div>
 
         <div className="relative">
           <button
             onClick={toggleDropdown}
-            className="flex items-center space-x-2 text-[#ff4c43]"
+            className="flex items-center space-x-2 text-[#fb7c75] hover:text-[#ff3d33]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -103,7 +105,7 @@ const sideBar = ({ children, id, title, menuList }: managerProp) => {
 
       {/* sidebar section */}
       <div
-        className={`flex flex-col w-2/3 md:w-1/2 lg:w-1/4 h-full fixed top-0 right-full rounded-r-3xl transition-transform z-50 sidebarBackground shadow-xl ${
+        className={`flex flex-col w-2/3 md:w-1/2 lg:w-1/4 h-full fixed top-0 right-full rounded-r-3xl transition-transform z-50 duration-1000 sidebarBackground shadow-xl ${
           isShow ? `translate-x-full` : ``
         }`}
       >
@@ -131,7 +133,9 @@ const sideBar = ({ children, id, title, menuList }: managerProp) => {
         <div className="mb-3 w-full flex justify-center">
           <div className="flex items-center space-x-2">
             <Image src={Logo} alt="Logo" width={60} height={60} />
-            <h1 className="text-3xl font-bold text-[#A5BFCC] tracking-wide">Ordering System</h1>
+            <h1 className="text-3xl font-bold text-[#A5BFCC] tracking-wide">
+              Ordering System
+            </h1>
           </div>
         </div>
         {/* end logo section */}
@@ -144,7 +148,9 @@ const sideBar = ({ children, id, title, menuList }: managerProp) => {
             height={60}
             className="rounded-full"
           />
-          <div className="text-xl font-semibold text-orange-300">Manager Name</div>
+          <div className="text-xl font-semibold text-orange-300">
+            Manager Name
+          </div>
         </div>
         {/* end user section */}
         {/* menu section */}
@@ -169,4 +175,4 @@ const sideBar = ({ children, id, title, menuList }: managerProp) => {
   );
 };
 
-export default sideBar
+export default sideBar;
