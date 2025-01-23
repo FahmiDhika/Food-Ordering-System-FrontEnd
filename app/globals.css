@@ -225,8 +225,6 @@ body {
     linear-gradient(135deg, rgb(37, 56, 222), rgb(96, 189, 244));
 }
 
-/* From Uiverse.io by satyamchaudharydev */ 
-/* inspired form gumroad website */
 .tekanButton {
   --bg: #000;
   --hover-bg: #ff90e8;
@@ -251,3 +249,8 @@ body {
   transform: translate(0);
   box-shadow: none;
 }
+
+/* .bg-backdrop-login {
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: brightness(0.5);
+} */

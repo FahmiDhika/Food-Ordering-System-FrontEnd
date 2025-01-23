@@ -14,14 +14,9 @@ export default function Home() {
         silahkan tekan tombol berikut untuk menuju {" "}
         <TypeAnimation
           sequence={[
-            // Same substring at the start will only be typed out once, initially
-            "Dashboard",
-            1000, // wait 1s before replacing "Mice" with "Hamsters"
-            "Menu",
-            1000,
-            "User",
-            1000,
-            "Transaksi",
+            "Login",
+            1000, 
+            "Register",
             1000,
           ]}
           wrapper="span"
@@ -33,7 +28,7 @@ export default function Home() {
       </p>
 
       <Link
-        href={`/manager/dashboard`}
+        href={`/login`}
         className="py-4 px-12 bg-white shadow-xl tekanButton"
       >
         Tekan

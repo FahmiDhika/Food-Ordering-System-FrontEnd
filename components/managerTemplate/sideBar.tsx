@@ -5,6 +5,8 @@ import Image from "next/image";
 import MenuItem from "./menuItem";
 import Logo from "../../public/image/Amogus.png";
 import Profile from "../../public/image/duarr meme.jpg";
+import { removeCookie } from "@/lib/client-cookie";
+import { useRouter } from "next/navigation";
 
 type menuType = {
   id: string;
@@ -26,6 +28,17 @@ const sideBar = ({ children, id, title, menuList }: managerProp) => {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+  const router = useRouter();
+
+  const handleLogout = () => {
+    removeCookie("token");
+    removeCookie("id");
+    removeCookie("name");
+    removeCookie("role");
+    router.replace(`/login`);
+  };
+
   return (
     <div className="w-full min-h-dvh">
       {/* header section */}
@@ -83,13 +96,8 @@ const sideBar = ({ children, id, title, menuList }: managerProp) => {
               </a>
               <a
                 href="#"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                Settings
-              </a>
-              <a
-                href="#"
                 className="block px-4 py-2 text-sm text-[#F0BB78] hover:bg-gray-100 hover:text-[#ff4c43]"
+                onClick={handleLogout}
               >
                 Logout
               </a>
