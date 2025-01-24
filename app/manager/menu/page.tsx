@@ -33,7 +33,7 @@ const MenuPage = async ({
   const category = (cat: string): React.ReactNode => {
     if (cat === "FOOD") {
       return (
-        <span className="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+        <span className="bg-blue-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
           Food
         </span>
       );
