@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { Children, ReactNode } from "react";
 
 type prop = {
   children: ReactNode;
@@ -121,3 +121,18 @@ export const PromptButton = ({
     </button>
   );
 };
+
+export const ButtonPrimary = ({ children, type, onClick, className }: prop) => {
+  return (
+    <button
+      className={`text-sm bg-orange-400 border-2 border-amber-400 hover:border-white ease-in-out duration-300 hover:bg-orange-400  text-white rounded-md
+            py-2 px-4 font-bold ${className}`}
+      type={type}
+      onClick={() => {
+        if (onClick) onClick();
+      }}
+    >
+      {children}
+    </button>
+  );
+}

@@ -5,13 +5,14 @@ import { get } from "@/lib/api-bridge";
 import { AlertInfo } from "@/components/alert";
 import Image from "next/image";
 import Search from "./search";
+import AddMenu from "./addMenu";
 
 const getMenu = async (search: string): Promise<IMenu[]> => {
   try {
     const TOKEN = await getCookies("token");
     const url = `${BASE_API_URL}/menu/get?search=${search}`;
     const { data } = await get(url, TOKEN);
-    console.log(data.picture)
+    console.log(data.picture);
     let result: IMenu[] = [];
     if (data?.status) result = [...data.data];
     return result;
@@ -53,7 +54,7 @@ const MenuPage = async ({
   };
 
   return (
-    <div className="m-2 bg-white rounded-lg p-3 border-t-4 border-t-primary shadow-md">
+    <div className="bg-white rounded-lg p-3 shadow-md">
       <h4 className="text-xl font-bold mb-2">Menu Data</h4>
       <p className="text-sm text-secondary mb-4">
         This page displays menu data, allowing menus to view details, search,
@@ -63,6 +64,11 @@ const MenuPage = async ({
         {/* Search Bar */}
         <div className="flex items-center w-full max-w-md flex-grow">
           <Search url={`/manager/menu`} search={search} />
+        </div>
+
+        {/* Add Menu Button */}
+        <div className="ml-4">
+          <AddMenu />
         </div>
       </div>
       {menu.length == 0 ? (
