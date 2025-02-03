@@ -1,53 +1,28 @@
 "use client";
 
-import { IUser } from "@/app/types";
+import { IMenu } from "@/app/types";
 import { BASE_API_URL } from "@/global";
-import { post } from "@/lib/api-bridge";
+import { put } from "@/lib/api-bridge";
 import { getCookie } from "@/lib/client-cookie";
 import { useRouter } from "next/navigation";
 import { FormEvent, useRef, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import {
-  ButtonPrimary,
-  ButtonSuccess,
-  ButtonDanger,
-} from "@/components/button";
+import { ButtonPrimary, ButtonDanger, ButtonInfo } from "@/components/button";
 import { InputGroupComponent } from "@/components/inputComponent";
 import Modal from "@/components/modal";
 import Select from "@/components/select";
 import FileInput from "@/components/fileInput";
 
-const AddUser = () => {
+const EditMenu = ({ selectedMenu }: { selectedMenu: IMenu }) => {
   const [isShow, setIsShow] = useState<boolean>(false);
-  const [user, setUser] = useState<IUser>({
-    id: 0,
-    uuid: ``,
-    name: ``,
-    email: ``,
-    password: ``,
-    profile_picture: ``,
-    role: ``,
-    createdAt: ``,
-    updatedAt: ``,
-  });
-
+  const [menu, setMenu] = useState<IMenu>({ ...selectedMenu });
   const router = useRouter();
   const TOKEN = getCookie("token") || "";
   const [file, setFile] = useState<File | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   const openModal = () => {
-    setUser({
-      id: 0,
-      uuid: ``,
-      name: ``,
-      email: ``,
-      password: ``,
-      profile_picture: ``,
-      role: ``,
-      createdAt: ``,
-      updatedAt: ``,
-    });
+    setMenu({ ...selectedMenu });
     setIsShow(true);
     if (formRef.current) formRef.current.reset();
   };
@@ -55,36 +30,35 @@ const AddUser = () => {
   const handleSubmit = async (e: FormEvent) => {
     try {
       e.preventDefault();
-      const url = `${BASE_API_URL}/user/create`;
-      const { name, email, password, role } = user;
+      const url = `${BASE_API_URL}/menu/${selectedMenu.id}`;
+      const { name, price, description, category } = menu;
       const payload = new FormData();
       payload.append("name", name || "");
-      payload.append("email", email || "");
-      payload.append("password", password || "");
-      payload.append("role", role || "");
-      if (file !== null) payload.append("profile_picture", file || "");
-      const { data } = await post(url, payload, TOKEN);
+      payload.append("price", price !== undefined ? price.toString() : "0");
+      payload.append("description", description || "");
+      payload.append("category", category || "");
+      if (file !== null) payload.append("picture", file || "");
+      const { data } = await put(url, payload, TOKEN);
       if (data?.status) {
         setIsShow(false);
         toast(data?.message, {
-          hideProgressBar: true,
-          containerId: `toastUser`,
+          hideProgressBar: false,
+          containerId: `toastMenu`,
           type: `success`,
         });
-        console.log(data?.message)
         setTimeout(() => router.refresh(), 1000);
       } else {
         toast(data?.message, {
-          hideProgressBar: true,
-          containerId: `toastUser`,
+          hideProgressBar: false,
+          containerId: `toastMenu`,
           type: `warning`,
         });
       }
     } catch (error) {
       console.log(error);
       toast(`Something Wrong`, {
-        hideProgressBar: true,
-        containerId: `toastUser`,
+        hideProgressBar: false,
+        containerId: `toastMenu`,
         type: `error`,
       });
     }
@@ -92,35 +66,47 @@ const AddUser = () => {
 
   return (
     <div>
-      <ToastContainer containerId={`toastUser`} />
-      <ButtonSuccess type="button" onClick={() => openModal()}>
-        <div className="flex items-center gap-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 4.5v15m7.5-7.5h-15"
-            />
-          </svg>
-          Add User
-        </div>
-      </ButtonSuccess>
+      <ToastContainer containerId={`toastMenu`} />
+      <ButtonInfo type="button" onClick={() => openModal()}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-4"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582
+   16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1
+   1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75
+   21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+          />
+        </svg>
+      </ButtonInfo>
       <Modal isShow={isShow} onClose={(state) => setIsShow(state)}>
         <form onSubmit={handleSubmit}>
           {/* modal header */}
-          <div className="sticky top-0 bg-white px-5 pt-5 pb-3 shadow">
+          <div
+            className="sticky top-0 bg-white px-5 pt-5 pb-3
+shadow"
+          >
             <div className="w-full flex items-center">
               <div className="flex flex-col">
-                <strong className="font-bold text-2xl">Create New User</strong>
-                <small className="text-slate-400 text-sm">
-                  Managers can create User items on this page.
+                <strong
+                  className="font-bold
+text-2xl"
+                >
+                  Update Menu
+                </strong>
+                <small
+                  className="text-slate-400
+text-sm"
+                >
+                  Managers can update both Cashier and Manager roles on this
+                  page.
                 </small>
               </div>
               <div className="ml-auto">
@@ -153,43 +139,43 @@ const AddUser = () => {
             <InputGroupComponent
               id={`name`}
               type="text"
-              value={user.name}
-              onChange={(val) => setUser({ ...user, name: val })}
+              value={menu.name}
+              onChange={(val) => setMenu({ ...menu, name: val })}
               required={true}
               label="Name"
             />
             <InputGroupComponent
-              id={`email`}
-              type="text"
-              value={user.email}
-              onChange={(val) => setUser({ ...user, email: val })}
+              id={`price`}
+              type="number"
+              value={menu.price.toString()}
+              onChange={(val) => setMenu({ ...menu, price: Number(val) })}
               required={true}
-              label="Email"
+              label="Price"
             />
             <InputGroupComponent
-              id={`password`}
+              id={`description`}
               type="text"
-              value={user.password}
-              onChange={(val) => setUser({ ...user, password: val })}
+              value={menu.description}
+              onChange={(val) => setMenu({ ...menu, description: val })}
               required={true}
-              label="Password"
+              label="Description"
             />
-
             <Select
-              id={`role`}
-              value={user.role}
-              label="Role"
+              id={`category`}
+              value={menu.category}
+              label="Category"
               required={true}
               onChange={(val) =>
-                setUser({
-                  ...user,
-                  role: val,
+                setMenu({
+                  ...menu,
+                  category: val,
                 })
               }
             >
-              <option value="">--- Select Role ---</option>
-              <option value="MANAGER">MANAGER</option>
-              <option value="CASHIER">CASHIER</option>
+              <option value="">--- Select Category ---</option>
+              <option value="FOOD">Food</option>
+              <option value="SNACK">Snack</option>
+              <option value="DRINK">Drink</option>
             </Select>
             <FileInput
               acceptTypes={[
@@ -199,7 +185,7 @@ const AddUser = () => {
                 "image/jpg",
               ]}
               id="profile_picture"
-              label="Upload Picture (Max 2MB, PDF/JPG/JPEG/PNG)"
+              label="Unggah Foto (Max 2MB, PDF/JPG/JPEG/PNG)"
               onChange={(f) => setFile(f)}
               required={false}
             />
@@ -220,4 +206,4 @@ const AddUser = () => {
     </div>
   );
 };
-export default AddUser;
+export default EditMenu;

@@ -6,13 +6,13 @@ import { AlertInfo } from "@/components/alert";
 import Image from "next/image";
 import Search from "./search";
 import AddMenu from "./addMenu";
+import EditMenu from "./editMenu";
 
 const getMenu = async (search: string): Promise<IMenu[]> => {
   try {
     const TOKEN = await getCookies("token");
     const url = `${BASE_API_URL}/menu/get?search=${search}`;
     const { data } = await get(url, TOKEN);
-    console.log(data.picture);
     let result: IMenu[] = [];
     if (data?.status) result = [...data.data];
     return result;
@@ -27,7 +27,9 @@ const MenuPage = async ({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const search = searchParams.search ? searchParams.search.toString() : ``;
+  const search = await (searchParams.search
+    ? searchParams.search.toString()
+    : ``);
 
   const menu: IMenu[] = await getMenu(search);
 
@@ -126,6 +128,9 @@ const MenuPage = async ({
                     Action
                   </small>
                   <br />
+                  <div className="flex gap-1">
+                    <EditMenu selectedMenu={data} />
+                  </div>
                 </div>
               </div>
             ))}

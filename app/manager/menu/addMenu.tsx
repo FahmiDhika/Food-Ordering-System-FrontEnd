@@ -67,14 +67,14 @@ const AddMenu = () => {
       if (data?.status) {
         setIsShow(false);
         toast(data?.message, {
-          hideProgressBar: true,
+          hideProgressBar: false,
           containerId: `toastMenu`,
           type: `success`,
         });
         setTimeout(() => router.refresh(), 1000);
       } else {
         toast(data?.message, {
-          hideProgressBar: true,
+          hideProgressBar: false,
           containerId: `toastMenu`,
           type: `warning`,
         });
@@ -82,7 +82,7 @@ const AddMenu = () => {
     } catch (error) {
       console.log(error);
       toast(`Something Wrong`, {
-        hideProgressBar: true,
+        hideProgressBar: false,
         containerId: `toastMenu`,
         type: `error`,
       });

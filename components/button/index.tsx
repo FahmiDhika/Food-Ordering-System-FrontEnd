@@ -102,12 +102,7 @@ export const DownloadButton = ({
   );
 };
 
-export const PromptButton = ({
-  children,
-  type,
-  onClick,
-  className,
-}: prop) => {
+export const PromptButton = ({ children, type, onClick, className }: prop) => {
   return (
     <button
       className={`text-sm bg-white border-2 border-amber-400 hover:border-white ease-in-out duration-300 hover:bg-amber-500  text-black rounded-md
@@ -135,4 +130,19 @@ export const ButtonPrimary = ({ children, type, onClick, className }: prop) => {
       {children}
     </button>
   );
-}
+};
+
+export const ButtonInfo = ({ children, type, onClick, className }: prop) => {
+  return (
+    <button
+      className={`text-sm bg-blue-400 border-2 border-blue-400 hover:border-white ease-in-out duration-300 hover:bg-blue-400  text-white rounded-md
+            py-2 px-4 font-bold ${className}`}
+      type={type}
+      onClick={() => {
+        if (onClick) onClick();
+      }}
+    >
+      {children}
+    </button>
+  );
+};

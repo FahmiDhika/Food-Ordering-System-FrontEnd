@@ -34,21 +34,25 @@ export const get = async (url: string, token: string) => {
   }
 };
 
-export const post = async (url: string, data: string | FormData, token: string  ) => {
+export const post = async (
+  url: string,
+  data: string | FormData,
+  token: string
+) => {
   try {
-    const typed: string = (typeof data == 'string') ? "application/json" : "multipart/form-data"
+    const typed: string =
+      typeof data == "string" ? "application/json" : "multipart/form-data";
     let headers: any = {
-      "Authorization": `Bearer ${token}` || '',
-      "Content-Type": typed
-    }
+      Authorization: `Bearer ${token}` || "",
+      "Content-Type": typed,
+    };
 
-    let result = await axiosInstance.post(url, data, { headers })
+    let result = await axiosInstance.post(url, data, { headers });
 
     return {
       status: true,
-      data: result.data
-    }
-
+      data: result.data,
+    };
   } catch (error) {
     const err = error as AxiosError<{ message: string; code: number }>;
     if (err.response) {
@@ -64,4 +68,39 @@ export const post = async (url: string, data: string | FormData, token: string  
       message: `Something were wrong: ${error}`,
     };
   }
-}
+};
+
+export const put = async (
+  url: string,
+  data: string | FormData,
+  token: string
+) => {
+  try {
+    const type: string =
+      typeof data == "string" ? "application/json" : "multipart/form-data";
+    let result = await axiosInstance.put(url, data, {
+      headers: {
+        Authorization: `Bearer ${token}` || "",
+        "Content-Type": type,
+      },
+    });
+    return {
+      status: true,
+      data: result.data,
+    };
+  } catch (error) {
+    const err = error as AxiosError<{ message: string; code: number }>;
+    if (err.response) {
+      console.log(err.response.data.message);
+      return {
+        status: false,
+        message: `${err.code}: something wrong`,
+      };
+    }
+    console.log(err.response);
+    return {
+      status: false,
+      message: `Something were wrong`,
+    };
+  }
+};
