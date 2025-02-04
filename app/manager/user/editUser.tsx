@@ -2,80 +2,60 @@
 
 import { IUser } from "@/app/types";
 import { BASE_API_URL } from "@/global";
-import { post } from "@/lib/api-bridge";
+import { put } from "@/lib/api-bridge";
 import { getCookie } from "@/lib/client-cookie";
 import { useRouter } from "next/navigation";
 import { FormEvent, useRef, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import {
   ButtonPrimary,
-  ButtonSuccess,
   ButtonDanger,
+  ButtonInfo,
+  ButtonWarning,
 } from "@/components/button";
 import { InputGroupComponent } from "@/components/inputComponent";
 import Modal from "@/components/modal";
 import Select from "@/components/select";
 import FileInput from "@/components/fileInput";
 
-const AddUser = () => {
+const EditUser = ({ selectedUser }: { selectedUser: IUser }) => {
   const [isShow, setIsShow] = useState<boolean>(false);
-  const [user, setUser] = useState<IUser>({
-    idUser: 0,
-    uuid: ``,
-    name: ``,
-    email: ``,
-    password: ``,
-    profile_picture: ``,
-    role: ``,
-    createdAt: ``,
-    updatedAt: ``,
-  });
-
+  const [user, setUser] = useState<IUser>({ ...selectedUser });
+  const [showPasswordInput, setShowPasswordInput] = useState<boolean>(false);
   const router = useRouter();
   const TOKEN = getCookie("token") || "";
   const [file, setFile] = useState<File | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   const openModal = () => {
-    setUser({
-      idUser: 0,
-      uuid: ``,
-      name: ``,
-      email: ``,
-      password: ``,
-      profile_picture: ``,
-      role: ``,
-      createdAt: ``,
-      updatedAt: ``,
-    });
+    setUser({ ...selectedUser });
+    setUser({ ...user, password: "" });
     setIsShow(true);
+    setShowPasswordInput(false);
     if (formRef.current) formRef.current.reset();
   };
 
   const handleSubmit = async (e: FormEvent) => {
     try {
       e.preventDefault();
-      const url = `${BASE_API_URL}/user/create`;
+      const url = `${BASE_API_URL}/user/${selectedUser.idUser}`;
       const { name, email, password, role } = user;
       const payload = new FormData();
       payload.append("name", name || "");
       payload.append("email", email || "");
       payload.append("password", password || "");
       payload.append("role", role || "");
-      if (file !== null) payload.append("profile_picture", file || "");
-      const { data } = await post(url, payload, TOKEN);
+      if (file !== null) payload.append("picture", file || "");
+      const { data } = await put(url, payload, TOKEN);
       if (data?.status) {
         setIsShow(false);
-        toast.dismiss();
         toast(data?.message, {
           hideProgressBar: false,
           containerId: `toastUser`,
           type: `success`,
         });
-        console.log(data?.message);
         setTimeout(() => router.refresh(), 1000);
       } else {
-        toast.dismiss();
         toast(data?.message, {
           hideProgressBar: false,
           containerId: `toastUser`,
@@ -94,34 +74,46 @@ const AddUser = () => {
 
   return (
     <div>
-      <ButtonSuccess type="button" onClick={() => openModal()}>
-        <div className="flex items-center gap-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 4.5v15m7.5-7.5h-15"
-            />
-          </svg>
-          Add User
-        </div>
-      </ButtonSuccess>
+      <ButtonInfo type="button" onClick={() => openModal()}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-4"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582
+   16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1
+   1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75
+   21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+          />
+        </svg>
+      </ButtonInfo>
       <Modal isShow={isShow} onClose={(state) => setIsShow(state)}>
         <form onSubmit={handleSubmit}>
           {/* modal header */}
-          <div className="sticky top-0 bg-white px-5 pt-5 pb-3 shadow">
+          <div
+            className="sticky top-0 bg-white px-5 pt-5 pb-3
+shadow"
+          >
             <div className="w-full flex items-center">
               <div className="flex flex-col">
-                <strong className="font-bold text-2xl">Create New User</strong>
-                <small className="text-slate-400 text-sm">
-                  Managers can create User items on this page.
+                <strong
+                  className="font-bold
+text-2xl"
+                >
+                  Update Menu
+                </strong>
+                <small
+                  className="text-slate-400
+text-sm"
+                >
+                  Managers can update both Cashier and Manager roles on this
+                  page.
                 </small>
               </div>
               <div className="ml-auto">
@@ -167,15 +159,6 @@ const AddUser = () => {
               required={true}
               label="Email"
             />
-            <InputGroupComponent
-              id={`password`}
-              type="text"
-              value={user.password}
-              onChange={(val) => setUser({ ...user, password: val })}
-              required={true}
-              label="Password"
-            />
-
             <Select
               id={`role`}
               value={user.role}
@@ -199,12 +182,32 @@ const AddUser = () => {
                 "image/jpeg",
                 "image/jpg",
               ]}
-              id="profile_picture"
-              label="Upload Picture (Max 2MB, PDF/JPG/JPEG/PNG)"
+              id="picture"
+              label="Unggah Foto (Max 2MB, PDF/JPG/JPEG/PNG)"
               onChange={(f) => setFile(f)}
               required={false}
             />
+
+            {/* ganti password */}
+            {!showPasswordInput ? (
+              <ButtonWarning
+                type="button"
+                onClick={() => setShowPasswordInput(true)}
+              >
+                Ubah Password Default
+              </ButtonWarning>
+            ) : (
+              <InputGroupComponent
+                id="password"
+                type="text"
+                value={user.password}
+                onChange={(val) => setUser({ ...user, password: val })}
+                required = {false}
+                label="Password"
+              />
+            )}
           </div>
+
           {/* end modal body */}
           {/* modal footer */}
           <div className="w-full p-5 flex rounded-b-2xl shadow">
@@ -221,4 +224,4 @@ const AddUser = () => {
     </div>
   );
 };
-export default AddUser;
+export default EditUser;

@@ -11,7 +11,7 @@ export interface IMenu {
 }
 
 export interface IUser {
-    id : number,
+    idUser : number,
     uuid : string,
     name : string,
     email: string,

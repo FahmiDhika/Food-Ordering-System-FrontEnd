@@ -66,14 +66,14 @@ const AddMenu = () => {
       const { data } = await post(url, payload, TOKEN);
       if (data?.status) {
         setIsShow(false);
-        toast(data?.message, {
+        toast.success(data?.message, {
           hideProgressBar: false,
           containerId: `toastMenu`,
           type: `success`,
         });
         setTimeout(() => router.refresh(), 1000);
       } else {
-        toast(data?.message, {
+        toast.warning(data?.message, {
           hideProgressBar: false,
           containerId: `toastMenu`,
           type: `warning`,
@@ -81,7 +81,7 @@ const AddMenu = () => {
       }
     } catch (error) {
       console.log(error);
-      toast(`Something Wrong`, {
+      toast.error(`Something Wrong`, {
         hideProgressBar: false,
         containerId: `toastMenu`,
         type: `error`,
@@ -91,7 +91,6 @@ const AddMenu = () => {
 
   return (
     <div>
-      <ToastContainer containerId={`toastMenu`} />
       <ButtonSuccess type="button" onClick={() => openModal()}>
         <div className="flex items-center gap-2">
           <svg

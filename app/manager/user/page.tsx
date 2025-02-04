@@ -6,6 +6,7 @@ import { AlertInfo } from "@/components/alert/";
 import Image from "next/image";
 import Search from "./search";
 import AddUser from "./addUser";
+import EditUser from "./editUser";
 
 const getUser = async (search: string): Promise<IUser[]> => {
   try {
@@ -118,6 +119,7 @@ const UserPage = async ({
                   <small className="text-sm font-bold text-primary">
                     Action
                   </small>
+                  <EditUser selectedUser={data} />
                   <br />
                 </div>
               </div>

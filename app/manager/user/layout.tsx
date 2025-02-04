@@ -1,5 +1,6 @@
 import ManagerTemplate from "@/components/managerTemplate";
 import MenuList from "../menuList";
+import { ToastContainer } from "react-toastify";
 
 export const metadata = {
   title: "User | Food Ordering System",
@@ -14,7 +15,9 @@ const RootLayout = ({ children }: PropsLayout) => {
   return (
     <ManagerTemplate title="User" id="User" menuList={MenuList}>
       {children}
+      <ToastContainer containerId={`toastUser`} position="top-right" autoClose={1000} />
     </ManagerTemplate>
+    
   );
 };
 

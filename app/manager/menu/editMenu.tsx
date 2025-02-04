@@ -66,7 +66,6 @@ const EditMenu = ({ selectedMenu }: { selectedMenu: IMenu }) => {
 
   return (
     <div>
-      <ToastContainer containerId={`toastMenu`} />
       <ButtonInfo type="button" onClick={() => openModal()}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -184,7 +183,7 @@ text-sm"
                 "image/jpeg",
                 "image/jpg",
               ]}
-              id="profile_picture"
+              id="picture"
               label="Unggah Foto (Max 2MB, PDF/JPG/JPEG/PNG)"
               onChange={(f) => setFile(f)}
               required={false}
