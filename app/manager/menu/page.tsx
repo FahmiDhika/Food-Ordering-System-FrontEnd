@@ -7,6 +7,7 @@ import Image from "next/image";
 import Search from "./search";
 import AddMenu from "./addMenu";
 import EditMenu from "./editMenu";
+import DeleteMenu from "./deleteMenu";
 
 const getMenu = async (search: string): Promise<IMenu[]> => {
   try {
@@ -130,6 +131,7 @@ const MenuPage = async ({
                   <br />
                   <div className="flex gap-1">
                     <EditMenu selectedMenu={data} />
+                    <DeleteMenu selectedMenu={data} />
                   </div>
                 </div>
               </div>

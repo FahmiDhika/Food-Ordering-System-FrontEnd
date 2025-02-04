@@ -15,7 +15,7 @@ const RootLayout = ({ children }: PropsLayout) => {
   return (
     <ManagerTemplate title="User" id="User" menuList={MenuList}>
       {children}
-      <ToastContainer containerId={`toastUser`} position="top-right" autoClose={1000} />
+      <ToastContainer containerId={`toastUser`} position="top-right" autoClose={2000} />
     </ManagerTemplate>
     
   );
