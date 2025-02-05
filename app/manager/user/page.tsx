@@ -7,6 +7,7 @@ import Image from "next/image";
 import Search from "./search";
 import AddUser from "./addUser";
 import EditUser from "./editUser";
+import DeleteUser from "./deleteUser";
 
 const getUser = async (search: string): Promise<IUser[]> => {
   try {
@@ -90,7 +91,9 @@ const UserPage = async ({
                   <Image
                     width={40}
                     height={40}
-                    src={`${BASE_IMAGE_PROFILE}/${data.profile_picture}` || `😍`}
+                    src={
+                      `${BASE_IMAGE_PROFILE}/${data.profile_picture}` || `😍`
+                    }
                     className="text-sm rounded-full overflow-hidden"
                     alt="preview"
                     unoptimized
@@ -109,17 +112,18 @@ const UserPage = async ({
                   {data.email}
                 </div>
                 <div className="w-full md:w-4/12 p-2">
-                  <small className="text-sm font-bold text-primary">
-                    Role
-                  </small>{" "}
+                  <small className="text-sm font-bold text-primary">Role</small>{" "}
                   <br />
                   {role(data.role)}
                 </div>
-                <div className="w-full md:w-2/12 p-2">
+                <div className="w-full md:w-2/12 p-2 flex-gr">
                   <small className="text-sm font-bold text-primary">
                     Action
                   </small>
-                  <EditUser selectedUser={data} />
+                  <div className="flex gap-1">
+                    <EditUser selectedUser={data} />
+                    <DeleteUser selectedUser={data} />
+                  </div>
                   <br />
                 </div>
               </div>
