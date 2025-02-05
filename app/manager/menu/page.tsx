@@ -57,11 +57,12 @@ const MenuPage = async ({
   };
 
   return (
-    <div className="bg-white rounded-lg p-3 shadow-md">
+    <div className="main-background rounded-lg p-3 shadow-md">
       <h4 className="text-xl font-bold mb-2">Menu Data</h4>
       <p className="text-sm text-secondary mb-4">
-        This page displays menu data, allowing menus to view details, search,
-        and manage menu items by adding, editing, or deleting them.
+        Halaman ini menampilkan data menu, memungkinkan menu untuk melihat
+        rincian, mencari, dan mengelola item menu dengan menambahkan, mengedit,
+        atau menghapusnya.
       </p>
       <div className="flex justify-between items-center mb-4">
         {/* Search Bar */}
@@ -82,44 +83,44 @@ const MenuPage = async ({
             {menu.map((data, index) => (
               <div
                 key={`keyPrestasi${index}`}
-                className={`flex flex-wrap shadow m-2`}
+                className={`flex flex-wrap shadow m-2 bg-slate-200 rounded-xl`}
               >
                 <div className="w-full md:w-1/12 p-2">
                   <small className="text-sm font-bold text-primary">
-                    Picture
+                    Foto Menu
                   </small>
                   <br />
                   <Image
-                    width={40}
-                    height={40}
+                    width={64}
+                    height={64}
                     src={`${BASE_IMAGE_MENU}/${data.picture}` || `😍`}
-                    className="text-sm rounded-sm overflow-hidden"
+                    className="text-sm object-cover aspect-square rounded-sm overflow-hidden"
                     alt="preview"
                     unoptimized
                   />
                 </div>
                 <div className="w-full md:w-2/12 p-2">
-                  <small className="text-sm font-bold text-primary">Name</small>{" "}
+                  <small className="text-sm font-bold text-primary">Nama Menu</small>{" "}
                   <br />
                   {data.name}
                 </div>
                 <div className="w-full md:w-1/12 p-2">
                   <small className="text-sm font-bold text-primary">
-                    Price
+                    Harga
                   </small>{" "}
                   <br />
                   {data.price}
                 </div>
                 <div className="w-full md:w-5/12 p-2">
                   <small className="text-sm font-bold text-primary">
-                    Description
+                    Deskripsi
                   </small>{" "}
                   <br />
                   {data.description}
                 </div>
                 <div className="w-full md:w-1/12 p-2">
                   <small className="text-sm font-bold text-primary">
-                    Category
+                    Kategori
                   </small>{" "}
                   <br />
                   {category(data.category)}
