@@ -28,8 +28,7 @@ const EditUser = ({ selectedUser }: { selectedUser: IUser }) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const openModal = () => {
-    setUser({ ...selectedUser });
-    setUser({ ...user, password: "" });
+    setUser({ ...selectedUser});
     setIsShow(true);
     setShowPasswordInput(false);
     if (formRef.current) formRef.current.reset();
@@ -45,7 +44,7 @@ const EditUser = ({ selectedUser }: { selectedUser: IUser }) => {
       payload.append("email", email || "");
       payload.append("password", password || "");
       payload.append("role", role || "");
-      if (file !== null) payload.append("picture", file || "");
+      if (file !== null) payload.append("profile_picture", file || "");
       const { data } = await put(url, payload, TOKEN);
       if (data?.status) {
         setIsShow(false);

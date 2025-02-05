@@ -89,12 +89,12 @@ const UserPage = async ({
                   </small>
                   <br />
                   <Image
-                    width={40}
-                    height={40}
+                    width={64}
+                    height={64}
                     src={
                       `${BASE_IMAGE_PROFILE}/${data.profile_picture}` || `😍`
                     }
-                    className="text-sm rounded-full overflow-hidden"
+                    className="text-sm object-cover aspect-square rounded-full overflow-hidden"
                     alt="preview"
                     unoptimized
                   />
