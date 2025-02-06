@@ -28,10 +28,14 @@ const EditUser = ({ selectedUser }: { selectedUser: IUser }) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const openModal = () => {
-    setUser({ ...selectedUser});
+    setUser({ ...selectedUser });
     setIsShow(true);
     setShowPasswordInput(false);
     if (formRef.current) formRef.current.reset();
+  };
+  const editPassword = () => {
+    setUser({ ...user, password: "" });
+    setShowPasswordInput(true);
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -189,10 +193,7 @@ text-sm"
 
             {/* ganti password */}
             {!showPasswordInput ? (
-              <ButtonWarning
-                type="button"
-                onClick={() => setShowPasswordInput(true)}
-              >
+              <ButtonWarning type="button" onClick={() => editPassword()}>
                 Ubah Password Default
               </ButtonWarning>
             ) : (
@@ -201,7 +202,7 @@ text-sm"
                 type="text"
                 value={user.password}
                 onChange={(val) => setUser({ ...user, password: val })}
-                required = {false}
+                required={false}
                 label="Password"
               />
             )}
