@@ -109,7 +109,7 @@ shadow"
                   className="font-bold
 text-2xl"
                 >
-                  Update Menu
+                  Update User
                 </strong>
                 <small
                   className="text-slate-400
