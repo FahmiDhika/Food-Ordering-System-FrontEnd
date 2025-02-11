@@ -1,12 +1,16 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
+import Cookies from "js-cookie";
 import MenuItem from "./menuItem";
 import Logo from "../../public/image/Amogus.png";
 import Profile from "../../public/image/duarr meme.jpg";
 import { removeCookie } from "@/lib/client-cookie";
 import { useRouter } from "next/navigation";
+import { IUser } from "@/app/types";
+import { profile } from "console";
+import { BASE_IMAGE_PROFILE } from "@/global";
 
 type menuType = {
   id: string;
@@ -19,12 +23,22 @@ type managerProp = {
   children: ReactNode;
   id: string;
   title: string;
+  user: IUser | null
   menuList: menuType[];
 };
 
-const sideBar = ({ children, id, title, menuList }: managerProp) => {
+const sideBar = ({ children, id, title, menuList, user }: managerProp) => {
   const [isShow, setIsShow] = useState<boolean>(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [userName, setUsername] = useState<string>("");
+
+  useEffect(() => {
+    const name = Cookies.get("name"); // Ambil nama dari cookies
+    if (name) {
+      setUsername(name); // Set state hanya sekali
+    }
+  }, []); // Dependency array kosong agar hanya dijalankan sekali
+
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -150,14 +164,14 @@ const sideBar = ({ children, id, title, menuList }: managerProp) => {
         {/* user section */}
         <div className="w-full mt-10 mb-6 bg-primary text-black py-4 px-6 flex gap-2 items-center">
           <Image
-            src={Profile}
+            src={`${BASE_IMAGE_PROFILE}/${user?.profile_picture}`}
             alt="Profile"
             width={60}
             height={60}
-            className="rounded-full"
+            className="rounded-full object-cover aspect-square"
           />
           <div className="text-xl font-semibold text-orange-300">
-            Manager Name
+            {userName}
           </div>
         </div>
         {/* end user section */}
@@ -184,3 +198,5 @@ const sideBar = ({ children, id, title, menuList }: managerProp) => {
 };
 
 export default sideBar;
+
+
