@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 import { IoHomeOutline } from "react-icons/io5";
-import { FaRegUser } from "react-icons/fa";
+import { FaShoppingBasket } from "react-icons/fa";
 import { MdMenuBook } from "react-icons/md";
 import { IoFolderOpenOutline } from "react-icons/io5";
 
@@ -35,6 +35,14 @@ let menuList: IPropMenu[] = [
     label: `Transaksi`,
     icon: (
         <IoFolderOpenOutline size={32}/>
+    ),
+  },
+  {
+    id: `Order`,
+    path: `/cashier/order`,
+    label: `Order`,
+    icon: (
+        <FaShoppingBasket size={32}/>
     ),
   },
 ];
