@@ -1,7 +1,10 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
+import { BASE_IMAGE_PROFILE } from "@/global";
+import Cookies from "js-cookie";
 import Image from "next/image";
+import { IUser } from "@/app/types";
 import MenuItem from "./menuItem";
 import logo from "@/public/image/Amogus.png";
 import profile from "@/public/image/duarr meme.jpg";
@@ -20,12 +23,22 @@ type cashierProp = {
   children: ReactNode;
   id: string;
   title: string;
+  user: IUser | null
   menuList: menuType[];
 };
 
-const sideBar = ({ children, id, title, menuList }: cashierProp) => {
+const sideBar = ({ children, id, title, menuList, user }: cashierProp) => {
   const [isShow, setIsShow] = useState<boolean>(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [userName, setUsername] = useState<string>("");
+
+  useEffect(() => {
+    const name = Cookies.get("name");
+    if (name) {
+      setUsername(name);
+    }
+  }, []);
+
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -149,14 +162,14 @@ const sideBar = ({ children, id, title, menuList }: cashierProp) => {
         {/* user section */}
         <div className="w-full mt-10 mb-6 bg-primary text-black py-4 px-6 flex gap-2 items-center">
           <Image
-            src={profile}
+            src={`${BASE_IMAGE_PROFILE}/${user?.profile_picture}`}
             alt="Profile"
             width={60}
             height={60}
-            className="rounded-full"
+            className="rounded-full object-cover aspect-square"
           />
           <div className="text-xl font-semibold text-orange-300">
-            Cashier Name
+            {userName}
           </div>
         </div>
         {/* end user section */}
