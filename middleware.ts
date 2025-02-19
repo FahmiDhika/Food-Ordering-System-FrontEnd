@@ -28,6 +28,23 @@ export const middleware = async (request: NextRequest) => {
     return NextResponse.next();
   }
 
+  if (request.nextUrl.pathname.startsWith("/cashier")) {
+    // Jika tidak ada token atau role, arahkan ke halaman login
+    if (!token || !role) {
+      const redirectAdmin = request.nextUrl.clone();
+      redirectAdmin.pathname = "/login";
+      return NextResponse.redirect(redirectAdmin);
+    }
+    // Jika role bukan MANAGER, arahkan ke halaman login
+    if (role !== "CASHIER") {
+      const redirectAdmin = request.nextUrl.clone();
+      redirectAdmin.pathname = "/login";
+      return NextResponse.redirect(redirectAdmin);
+    }
+    // Jika semua cek berhasil, lanjutkan ke halaman yang diminta
+    return NextResponse.next();
+  }
+
   // Untuk semua halaman lainnya, lanjutkan tanpa perubahan
   return NextResponse.next();
 };
@@ -36,5 +53,6 @@ export const config = {
   matcher: [
     "/manager/:path*", // Menangkap semua rute di bawah /manager
     "/", // Menangkap rute root
+    "/cashier/:path"
   ],
 };

@@ -24,7 +24,7 @@ let menuList: IPropMenu[] = [
   {
     id: `menu`,
     path: `/cashier/menu`,
-    label: `Menu`,
+    label: `Order`,
     icon: (
         <MdMenuBook size={32}/>
     ),
@@ -35,14 +35,6 @@ let menuList: IPropMenu[] = [
     label: `Transaksi`,
     icon: (
         <IoFolderOpenOutline size={32}/>
-    ),
-  },
-  {
-    id: `Order`,
-    path: `/cashier/order`,
-    label: `Order`,
-    icon: (
-        <FaShoppingBasket size={32}/>
     ),
   },
 ];

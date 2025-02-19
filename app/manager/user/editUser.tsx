@@ -46,7 +46,7 @@ const EditUser = ({ selectedUser }: { selectedUser: IUser }) => {
       const payload = new FormData();
       payload.append("name", name || "");
       payload.append("email", email || "");
-      payload.append("password", password || "");
+      if (showPasswordInput) payload.append("password", password || "");
       payload.append("role", role || "");
       if (file !== null) payload.append("profile_picture", file || "");
       const { data } = await put(url, payload, TOKEN);
