@@ -23,9 +23,10 @@ export interface IUser {
 }
 
 export interface ICart {
-  menuName: string;
+  idMenu: number;
   price: number;
   quantity: number;
+  note: string
 }
 
 

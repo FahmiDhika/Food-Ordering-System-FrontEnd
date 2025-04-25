@@ -12,6 +12,7 @@ type Props = {
 const Filter = ({ url, path, children, className }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const currentCategory = searchParams.get("category"); // Ambil category dari query params
 
   const handleSearch = () => {
     const params = new URLSearchParams(searchParams.toString());
@@ -25,9 +26,13 @@ const Filter = ({ url, path, children, className }: Props) => {
     router.push(`${url}?${params.toString()}`);
   };
 
+  // Jika kategori saat ini sama dengan path tombol, ubah warna background
+  const isActive = currentCategory === path || (!currentCategory && !path);
+  const activeClass = isActive ? "border-2 border-black scale-105" : "";
+
   return (
     <button
-      className={`${className} rounded-xl px-4 py-1`}
+      className={`${className} ${activeClass} rounded-lg font-semibold tracking-wide uppercase text-white px-4 py-1 transition-all`}
       onClick={handleSearch}
     >
       {children}
